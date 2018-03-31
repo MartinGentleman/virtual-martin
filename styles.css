@@ -3,7 +3,7 @@
     color: #000;
     -webkit-font-smoothing: antialiased;
     font-size: 100%;
-    vertical-align: baseline
+    vertical-align: baseline;
 }
 body,html {
     height: 100%
@@ -49,15 +49,24 @@ footer {
     margin: auto;
     padding: 60px;
 }
+#messages {
+    max-height: 100%;
+    overflow: scroll;
+}
 .message {
     line-height: 1.6;
     letter-spacing: 1px;
     font-style: normal;
-    margin: 10px 0;
+    margin: 20px 0;
 }
 .arrow {
     float:left;
 }
 .text {
     margin-left: 20px;
+}
+.text[contenteditable=true] {
+    outline: none;
+    border: solid #B2814F;
+    border-width: 0 0 2px 0;
 }

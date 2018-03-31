@@ -1,3 +1,23 @@
+document.execCommand("defaultParagraphSeparator", false, "br");
+
+const messageTemplate =
+  `<div class="message"><div class="arrow">></div><div class="text" contenteditable="true"></div></div>`;
+
+const sendMessage  = () => {
+  $ ('div[contenteditable=true]').attr ('contenteditable', 'false');
+  addEditableMessage ();
+};
+
+const addEditableMessage = () => {
+  const newMessage = $ (messageTemplate).on ('keydown', event => event.keyCode === 13 ? sendMessage () : '');
+  $ ('#messages').append (newMessage);
+  setTimeout(function() {
+    document.querySelector('div[contenteditable=true]').focus();
+  }, 0);
+};
+addEditableMessage ();
+
+
 // https://speckyboy.com/css-javascript-text-animation-snippets/ number 5
 
 const type = () => {

@@ -34,6 +34,9 @@ function initialize() {
 	svgElem.setAttribute("viewBox", "0 0 " + relWidth + " " + relHeight);
 	svgElem.querySelector("rect").setAttribute("x", (relWidth  - 1) / 2);
 	svgElem.querySelector("rect").setAttribute("y", (relHeight - 1) / 2);
+	if (!isBrowser.safari) {
+    svgElem.querySelector("g").setAttribute("filter","url(#blurMe)");
+	}
 
 	// Polyfill
 	if (!("hypot" in Math)) {
@@ -76,9 +79,11 @@ function initialize() {
 		item.opacity = 1;
 	});
 	redrawOutput(svgElem, nodes, edges);
-	
-	// Periodically execute stepFrame() to create animation
-	setInterval(stepFrame, FRAME_INTERVAL);
+
+	if (!isBrowser.firefox) {
+    // Periodically execute stepFrame() to create animation
+    setInterval(stepFrame, FRAME_INTERVAL);
+	}
 }
 
 // Returns a new array of nodes by updating/adding/removing nodes based on the given array. Although the
