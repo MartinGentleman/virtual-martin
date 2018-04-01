@@ -65,4 +65,3 @@ typings/
 .DS_Store
 .idea/
 package-lock.json
-dialogflow-credentials.json
