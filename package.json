@@ -16,7 +16,11 @@
     "url": "https://github.com/MartinGentleman/virtual-martin/issues"
   },
   "homepage": "https://github.com/MartinGentleman/virtual-martin#readme",
+  "engines": {
+    "node": "9.8.0"
+  },
   "dependencies": {
+    "body-parser": "^1.18.2",
     "dialogflow": "^0.2.0",
     "ejs": "^2.5.8",
     "express": "^4.16.3"

@@ -1,15 +1,25 @@
 document.execCommand("defaultParagraphSeparator", false, "br");
 
-const messageTemplate =
+const editableMessage =
   `<div class="message"><div class="arrow">></div><div class="text" contenteditable="true"></div></div>`;
 
-const sendMessage  = () => {
+const newResponse = response => `<div class="message"><div class="arrow">></div><div class="text">${response}</div></div>`;
+
+const sendMessage  = message => {
   $ ('div[contenteditable=true]').attr ('contenteditable', 'false');
-  addEditableMessage ();
+  $.post ('/api/query', {message: message})
+    .done (response => {
+      $ ('#messages').append (newResponse (response.response));
+      addEditableMessage ();
+    })
+    .fail (error => {
+      console.log ('error', error);
+      addEditableMessage ();
+    });
 };
 
 const addEditableMessage = () => {
-  const newMessage = $ (messageTemplate).on ('keydown', event => event.keyCode === 13 ? sendMessage () : '');
+  const newMessage = $ (editableMessage).on ('keydown', event => event.keyCode === 13 ? sendMessage (event.target.innerText) : '');
   $ ('#messages').append (newMessage);
   setTimeout(function() {
     document.querySelector('div[contenteditable=true]').focus();
