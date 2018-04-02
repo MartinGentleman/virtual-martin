@@ -9,6 +9,10 @@ const editableMessage =
 
 const newResponse = `<div class="message ai"><div class="text"><span class="typing"></span></div></div>`;
 
+const focus = target => setTimeout(() => target.focus (), 0);
+
+const scrollToBottom = target => target.scrollTop = target.scrollHeight;
+
 const sendMessage = message => {
   if (!message) return;
   $ ('div[contenteditable=true]').attr ('contenteditable', 'false');
@@ -40,8 +44,10 @@ const sendMenuMessage = message => {
 const addEditableMessage = () => {
   const newMessage = $ (editableMessage).on ('keydown', event => event.keyCode === 13 ? sendMessage (event.target.innerText) : '');
   $ ('#messages').append (newMessage);
-  setTimeout(() => document.querySelector('div[contenteditable=true]').focus(), 0);
+  scrollToBottom ($ ('#messages').get(0));
+  focus (document.querySelector('div[contenteditable=true]'));
   $ ('.send').on ('click', event => sendMessage ($ (event.target).parent ().find ('.text').text ()));
+
 };
 addEditableMessage ();
 
@@ -57,6 +63,7 @@ const typing = (jQueryElement, fullText) => {
   const currentText = target.text ();
   if (currentText !== strippedFullText) {
     target.text (strippedFullText.substr (0, currentText.length+1));
+    scrollToBottom ($ ('#messages').get(0));
     setTimeout(() => typing (jQueryElement, fullText), 20);
   } else {
     jQueryElement.find ('.text').html (fullText);

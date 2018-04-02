@@ -22,7 +22,7 @@ router.route('/query')
       const result = responses[0].queryResult;
       const response = {
         "query": result.queryText,
-        "response": result.fulfillmentText
+        "response": result.fulfillmentText ? result.fulfillmentText : 'hmm...'
       };
       if (process.env.NODE_ENV === 'dev') response['payload'] = responses;
       res.json (response);
