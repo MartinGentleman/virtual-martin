@@ -29,7 +29,7 @@ router.route('/query')
     }).catch (err => {
       res.json ({
         "query": req.body.message,
-        "response": "That's awkward... I am experiencing a bit of server problem. The real Martin is being notified of that."
+        "response": "That's awkward... I am experiencing a bit of a server problem. The real Martin is being notified of that."
       });
     });
   });
