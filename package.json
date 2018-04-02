@@ -4,7 +4,9 @@
   "description": "virtual martin",
   "main": "main.js",
   "scripts": {
-    "start": "node main.js"
+    "start": "node main.js",
+    "babel": "babel ./public/js/*.js --out-file ./public/js-bundle/bundle.js",
+    "publish": "git push heroku master"
   },
   "repository": {
     "type": "git",
@@ -24,5 +26,11 @@
     "dialogflow": "^0.2.0",
     "ejs": "^2.5.8",
     "express": "^4.16.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-minify": "^0.3.0",
+    "babel-preset-env": "^1.6.1"
   }
 }

@@ -7,10 +7,10 @@ const isBrowser = {
   safari: /^((?!chrome|android).)*safari/i.test(navigator.userAgent),
   // Internet Explorer 6-11
   ie: /*@cc_on!@*/false || !!document.documentMode,
-  // Edge 20+
-  edge: !this.ie && !!window.StyleMedia,
   // Chrome 1+
-  chrome: !!window.chrome && !!window.chrome.webstore,
-  // Blink engine detection
-  blink: (this.chrome || this.opera) && !!window.CSS
+  chrome: !!window.chrome && !!window.chrome.webstore
 };
+// Edge 20+
+isBrowser.edge = !isBrowser.ie && !!window.StyleMedia;
+// Blink engine detection
+isBrowser.blink = (isBrowser.chrome || isBrowser.opera) && !!window.CSS;
