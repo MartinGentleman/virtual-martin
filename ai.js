@@ -1,10 +1,9 @@
 const projectId = 'job-interview-d8e97';
 const sessionId = 'quickstart-session-id';
-const languageCode = 'en-US';
 
 // Instantiate a DialogFlow client.
 const dialogflow = require('dialogflow');
-console.log(process.env.GOOGLE_CLIENT_EMAIL);
+
 const sessionClient = new dialogflow.SessionsClient({
   projectId: process.env.GOOGLE_PROJECT_ID,
   credentials: {
@@ -21,7 +20,7 @@ const getRequest = query => ({
     queryInput: {
     text: {
       text: query,
-        languageCode: languageCode,
+        languageCode: 'en-US',
     },
   },
 });

@@ -59,6 +59,9 @@ footer {
     font-style: normal;
     margin: 20px 0;
 }
+.message.ai .text {
+    color: #492806;
+}
 .arrow {
     float:left;
 }

@@ -20,14 +20,16 @@ router.route('/query')
   .post ((req, res) => {
     AI.sendQuery (req.body.message).then (responses => {
       const result = responses[0].queryResult;
-      res.json ({
+      const response = {
         "query": result.queryText,
         "response": result.fulfillmentText
-      });
-    }).catch(err => {
+      };
+      if (process.env.NODE_ENV === 'dev') response['payload'] = responses;
+      res.json (response);
+    }).catch (err => {
       res.json ({
         "query": req.body.message,
-        "response": "Can you tell me more?"
+        "response": "That's awkward... I am experiencing a bit of server problem. The real Martin is being notified of that."
       });
     });
   });

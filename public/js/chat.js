@@ -3,7 +3,7 @@ document.execCommand("defaultParagraphSeparator", false, "br");
 const editableMessage =
   `<div class="message"><div class="arrow">></div><div class="text" contenteditable="true"></div></div>`;
 
-const newResponse = response => `<div class="message"><div class="arrow">></div><div class="text">${response}</div></div>`;
+const newResponse = response => `<div class="message ai"><div class="text">${response}</div></div>`;
 
 const sendMessage  = message => {
   $ ('div[contenteditable=true]').attr ('contenteditable', 'false');
@@ -11,6 +11,12 @@ const sendMessage  = message => {
     .done (response => {
       $ ('#messages').append (newResponse (response.response));
       addEditableMessage ();
+      if (response.payload) {
+        console.log ('query:', response.query);
+        console.log ('  response:', response.response);
+        const intent = response.payload[0].queryResult.intent;
+        console.log ('  intent:', intent ? intent.displayName : 'unknown');
+      }
     })
     .fail (error => {
       console.log ('error', error);
