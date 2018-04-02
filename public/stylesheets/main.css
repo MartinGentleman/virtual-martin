@@ -11,6 +11,7 @@ body,html {
 }
 h1 {
     text-align: center;
+    padding-top: 15px;
 }
 nav ul {
     margin: 0;
@@ -66,10 +67,10 @@ nav a:hover {
 .chatWindow {
     position: absolute;
     top: 100px;
-    bottom: 100px;
+    bottom: 50px;
     left: 0;
     right: 0;
-    padding: 60px;
+    padding: 20px;
     margin: 0 auto;
 }
 #background {
@@ -80,14 +81,13 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
-    padding: 15px;
+    padding-bottom: 15px;
     text-align: center;
 }
 header {
     position: fixed;
     top: 0;
     width: 100%;
-    padding: 15px;
     text-align: center;
 }
 @media screen and (min-width: 1024px) {
