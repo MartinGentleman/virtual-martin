@@ -36,4 +36,9 @@ router.route('/query')
 
 app.use('/api', router);
 
+// redirect everything else to homepage
+app.use((req, res) => {
+  res.redirect('/');
+});
+
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
