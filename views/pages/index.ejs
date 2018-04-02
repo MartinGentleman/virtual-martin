@@ -18,6 +18,7 @@
   </svg>
   <header>
     <h1>Virtual Martin v1.1</h1>
+    <% include ../partials/nav.ejs %>
   </header>
   <article>
     <div id="chatBackground" class="whiteOpacity chatWindow">&nbsp;</div>
@@ -25,7 +26,7 @@
       <div id="messages">
         <div class="message ai">
           <div class="text">
-            Hello. I am a virtual version of Martin Novak.
+              <%- process.env.DEFAULT_WELCOME ? process.env.DEFAULT_WELCOME : 'Hi. I am Virtual Martin.' %>
           </div>
         </div>
       </div>

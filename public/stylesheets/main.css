@@ -18,6 +18,20 @@ header {
     padding: 15px;
     text-align: center;
 }
+nav ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+nav li {
+    display: inline-block;
+}
+nav a {
+    text-decoration: none;
+}
+nav a:hover {
+    font-weight: bold;
+}
 footer {
     position: fixed;
     bottom: 0;
@@ -42,8 +56,8 @@ footer {
     max-width: 500px;
     max-height: 800px;
     position: absolute;
-    top:0;
-    bottom: 0;
+    top: 100px;
+    bottom: 100px;
     left: 0;
     right: 0;
     margin: auto;
@@ -59,11 +73,18 @@ footer {
     font-style: normal;
     margin: 20px 0;
 }
-.message.ai .text {
+.message.ai .text, .message.ai .text p {
     color: #492806;
 }
 .arrow {
     float:left;
+}
+.send {
+    text-align: right;
+    cursor: pointer;
+}
+.send:hover {
+    font-weight: bold;
 }
 .text {
     margin-left: 20px;

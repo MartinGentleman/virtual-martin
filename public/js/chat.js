@@ -1,15 +1,22 @@
 document.execCommand("defaultParagraphSeparator", false, "br");
 
 const editableMessage =
-  `<div class="message"><div class="arrow">></div><div class="text" contenteditable="true"></div></div>`;
+  `<div class="message">
+     <div class="arrow">></div>
+     <div class="text" contenteditable="true"></div>
+     <div class="send">[ Send ]</div>
+   </div>`;
 
 const newResponse = response => `<div class="message ai"><div class="text">${response}</div></div>`;
 
-const sendMessage  = message => {
+const sendMessage = message => {
+  if (!message) return;
   $ ('div[contenteditable=true]').attr ('contenteditable', 'false');
+  $ ('.send').text ('[ Sending... ]');
   $.post ('/api/query', {message: message})
     .done (response => {
       $ ('#messages').append (newResponse (response.response));
+      $ ('.send').remove ();
       addEditableMessage ();
       if (response.payload) {
         console.log ('query:', response.query);
@@ -24,12 +31,18 @@ const sendMessage  = message => {
     });
 };
 
+const sendMenuMessage = message => {
+  $ ('div[contenteditable=true]').text (message);
+  return sendMessage (message);
+};
+
 const addEditableMessage = () => {
   const newMessage = $ (editableMessage).on ('keydown', event => event.keyCode === 13 ? sendMessage (event.target.innerText) : '');
   $ ('#messages').append (newMessage);
   setTimeout(function() {
     document.querySelector('div[contenteditable=true]').focus();
   }, 0);
+  $ ('.send').on ('click', event => sendMessage ($ (event.target).parent ().find ('.text').text ()));
 };
 addEditableMessage ();
 

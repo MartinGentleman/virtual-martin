@@ -1,0 +1,18 @@
+<nav>
+    <ul>
+        <% if (process.env.CV_DOWNLOAD) { %>
+        <li>
+            <a href="<%= process.env.CV_DOWNLOAD %>" target="_blank">[ Download Resume/CV ]</a>
+        </li>
+        <% } %>
+        <li>
+            <a href="#" onclick="sendMenuMessage ('Tell me about the AI of Virtual Martin.');return false;">[ About Virtual Martin ]</a>
+        </li>
+        <li>
+            <a href="#" onclick="sendMenuMessage ('How can I contact you?');return false;">[ Contacts ]</a>
+        </li>
+        <li>
+            <a href="#" onclick="sendMenuMessage ('Tell me about the website privacy and cookies.');return false;">[ Privacy & Cookies ]</a>
+        </li>
+    </ul>
+</nav>
