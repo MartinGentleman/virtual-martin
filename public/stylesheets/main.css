@@ -3,10 +3,11 @@
     color: #000;
     -webkit-font-smoothing: antialiased;
     font-size: 100%;
+    font-style: normal;
     vertical-align: baseline;
 }
 body,html {
-    height: 100%
+    height: 100%;
 }
 h1 {
     text-align: center;
@@ -36,7 +37,6 @@ nav a:hover {
 .message {
     line-height: 1.6;
     letter-spacing: 1px;
-    font-style: normal;
     margin: 20px 0;
 }
 .message.ai .text * {
@@ -66,19 +66,13 @@ nav a:hover {
 .chatWindow {
     position: absolute;
     top: 100px;
+    bottom: 100px;
     left: 0;
     right: 0;
-    margin: auto;
     padding: 60px;
-    max-width: 500px;
-    height: 600px;
+    margin: 0 auto;
 }
 #background {
-    position: fixed;
-    padding: 0;
-    margin: 0;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
 }
@@ -95,4 +89,9 @@ header {
     width: 100%;
     padding: 15px;
     text-align: center;
+}
+@media screen and (min-width: 1024px) {
+    .chatWindow {
+        max-width: 500px;
+    }
 }
