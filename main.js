@@ -1,10 +1,36 @@
 const express = require('express');
+const session = require('express-session');
 const path = require('path');
 const bodyParser = require('body-parser');
 const AI = require('./ai');
 const PORT = process.env.PORT || 5000;
 const app = express();
 const router = express.Router();
+const MemcachedStore = require('connect-memcached')(session);
+
+if (process.env.NODE_ENV === 'prod') {
+  app.use(session({
+    secret: process.env.SESSION_SECRET,
+    name: 'virtual-martin-session',
+    store: new MemcachedStore({
+        hosts: process.env.MEMCACHEDCLOUD_SERVERS,
+        secret: process.env.MEMCACHED_SECRET
+    }),
+    cookie: { maxAge: 60000 },
+    proxy: true,
+    resave: true,
+    saveUninitialized: true
+  }));
+} else {
+  app.use(session({
+    secret: process.env.SESSION_SECRET,
+    name: 'virtual-martin-session',
+    cookie: { maxAge: 60000 },
+    proxy: true,
+    resave: true,
+    saveUninitialized: true
+  }));
+}
 
 app
   .use(bodyParser.urlencoded({ extended: true }))

@@ -24,9 +24,11 @@
   },
   "dependencies": {
     "body-parser": "^1.18.2",
+    "connect-memcached": "^0.2.0",
     "dialogflow": "^0.2.0",
     "ejs": "^2.5.8",
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "express-session": "^1.15.6"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
