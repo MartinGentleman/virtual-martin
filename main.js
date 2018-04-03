@@ -9,6 +9,7 @@ const router = express.Router ();
 const mongoose = require ('mongoose');
 const MongoStore = require ('connect-mongo')(session);
 const VisitorModel = require ('./src/visitor-model');
+const ConversationModel = require ('./src/conversation-model');
 
 mongoose
   .connect (process.env.MONGODB_URI)
@@ -32,6 +33,16 @@ app
   .set('views', path.join (__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render ('pages/index'));
+
+const saveConversationData = (result, session) =>
+  new ConversationModel ({
+    sessionID: session.AISessionID,
+    query: result.queryText,
+    response: result.fulfillmentText ? result.fulfillmentText : '',
+    intent: result.intent ? result.intent.displayName : '',
+    parameters: result.parameters.fields
+  }).save ()
+    .catch (err => console.error (err));
 
 const saveVisitorData = (result, session) => {
   if (result.intent) {
@@ -59,6 +70,7 @@ router.route ('/query')
   .post ((req, res) => {
     AI.sendQuery (req.body.message, req.session).then (responses => {
       const result = responses[0].queryResult;
+      saveConversationData (result, req.session);
       saveVisitorData (result, req.session);
       const response = {
         "query": result.queryText,

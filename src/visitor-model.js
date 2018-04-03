@@ -10,7 +10,11 @@ const VisitorSchema = new mongoose.Schema ({
   lastName: String,
   phone: String,
   email: String,
-  from: String
+  from: String,
+  updated: {
+    type: Date,
+    default: Date.now
+  }
 });
 
 module.exports = mongoose.model ('Visitor', VisitorSchema);
