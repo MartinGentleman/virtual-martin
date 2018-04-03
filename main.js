@@ -6,31 +6,20 @@ const AI = require('./ai');
 const PORT = process.env.PORT || 5000;
 const app = express();
 const router = express.Router();
-const MemcachedStore = require('connect-memcached')(session);
+const mongoose = require('mongoose');
+const MongoStore = require('connect-mongo')(session);
 
-if (process.env.NODE_ENV === 'prod') {
-  app.use(session({
-    secret: process.env.SESSION_SECRET,
-    name: 'virtual-martin-session',
-    store: new MemcachedStore({
-        hosts: process.env.MEMCACHEDCLOUD_SERVERS,
-        secret: process.env.MEMCACHED_SECRET
-    }),
-    cookie: { maxAge: 60000 },
-    proxy: true,
-    resave: true,
-    saveUninitialized: true
-  }));
-} else {
-  app.use(session({
-    secret: process.env.SESSION_SECRET,
-    name: 'virtual-martin-session',
-    cookie: { maxAge: 60000 },
-    proxy: true,
-    resave: true,
-    saveUninitialized: true
-  }));
-}
+mongoose.connect(process.env.MONGODB_URI);
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  name: 'virtual-martin-session',
+  store: new MongoStore({ mongooseConnection: mongoose.connection }),
+  cookie: { maxAge: 60000 },
+  proxy: true,
+  resave: true,
+  saveUninitialized: true
+}));
 
 app
   .use(bodyParser.urlencoded({ extended: true }))
