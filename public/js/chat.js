@@ -29,6 +29,7 @@ const sendMessage = message => {
         const intent = response.payload[0].queryResult.intent;
         console.log ('  intent:', intent ? intent.displayName : 'unknown');
         console.log ('  parameters:', response.payload[0].queryResult.parameters.fields);
+        console.log (response.payload);
       }
     })
     .fail (error => {

@@ -1,7 +1,3 @@
-const projectId = 'job-interview-d8e97';
-const sessionId = 'quickstart-session-id';
-
-// Instantiate a DialogFlow client.
 const dialogflow = require('dialogflow');
 
 const sessionClient = new dialogflow.SessionsClient({
@@ -12,11 +8,8 @@ const sessionClient = new dialogflow.SessionsClient({
   }
 });
 
-// Define session path
-const sessionPath = sessionClient.sessionPath(projectId, sessionId);
-
-const getRequest = query => ({
-  session: sessionPath,
+const getRequest = (query, sessionID) => ({
+  session: sessionID,
     queryInput: {
     text: {
       text: query,
@@ -25,7 +18,16 @@ const getRequest = query => ({
   },
 });
 
-const sendQuery = query => sessionClient.detectIntent(getRequest(query));
+const logStartOfSession = variable => console.log (`New session: ${variable}`) || variable;
+
+const getSessionID = sessionID => sessionClient.sessionPath(process.env.GOOGLE_PROJECT_ID, sessionID);
+
+const sessionIDFromBrowserSession = session =>
+  session.AISessionID ? session.AISessionID :
+    logStartOfSession (session.AISessionID = `node-${Date.now()*Math.random()}`);
+
+const sendQuery = (query, session) =>
+  sessionClient.detectIntent(getRequest(query, getSessionID (sessionIDFromBrowserSession (session))));
 
 module.exports = {
   sendQuery: sendQuery

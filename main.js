@@ -15,7 +15,6 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   name: 'virtual-martin-session',
   store: new MongoStore({ mongooseConnection: mongoose.connection }),
-  cookie: { maxAge: 60000 },
   proxy: true,
   resave: true,
   saveUninitialized: true
@@ -33,7 +32,7 @@ app
 
 router.route('/query')
   .post ((req, res) => {
-    AI.sendQuery (req.body.message).then (responses => {
+    AI.sendQuery (req.body.message, req.session).then (responses => {
       const result = responses[0].queryResult;
       const response = {
         "query": result.queryText,
