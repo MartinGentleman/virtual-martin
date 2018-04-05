@@ -1,5 +1,3 @@
-document.execCommand("defaultParagraphSeparator", false, "br");
-
 const editableMessage =
   `<div class="message">
      <div class="arrow">></div>
@@ -13,11 +11,15 @@ const focus = target => setTimeout(() => target.focus (), 0);
 
 const scrollToBottom = target => target.scrollTop = target.scrollHeight;
 
+const turnOffAllContenteditable = () => $ ('[contenteditable=true]').attr ('contenteditable', 'false');
+
+const askAI = message => $.post ('/api/query', {message: message});
+
 const sendMessage = message => {
   if (!message) return;
-  $ ('div[contenteditable=true]').attr ('contenteditable', 'false');
+  turnOffAllContenteditable ();
   $ ('.send').text ('[ Sending... ]');
-  $.post ('/api/query', {message: message})
+  askAI (message)
     .done (response => {
       const newMessage = $ (newResponse);
       $ ('#messages').append (newMessage);
@@ -53,10 +55,7 @@ const addEditableMessage = () => {
 };
 addEditableMessage ();
 
-const stripHTML = html => {
-  const doc = new DOMParser().parseFromString(html, 'text/html');
-  return doc.body.textContent || "";
-};
+const stripHTML = html => new DOMParser().parseFromString(html, 'text/html').body.textContent || '';
 
 const typing = (jQueryElement, fullText) => {
   if (!jQueryElement.length || !fullText) return;
