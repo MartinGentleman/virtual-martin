@@ -13,6 +13,7 @@ const newResponse =
 const focus = target => setTimeout(() => target.focus (), 0);
 
 const scrollToBottom = target => target.scrollTop = target.scrollHeight && target;
+const scrollToBottomOfMessages = () => scrollToBottom ($ ('#messages').get(0));
 
 const turnOffAllContenteditable = () => $ ('[contenteditable=true]').attr ('contenteditable', 'false');
 
@@ -31,6 +32,34 @@ const logDebugResponsePayload = response => {
     return response;
 };
 
+const addEditableMessage = () => {
+  const newMessage = $ (editableMessage).on ('keydown', event => event.keyCode === 13 ? sendMessage (event.target.innerText) : '');
+  $ ('#messages').append (newMessage);
+  scrollToBottomOfMessages ();
+  focus (document.querySelector('div[contenteditable=true]'));
+  $ ('.send').on ('click', event => sendMessage ($ (event.target).parent ().find ('.text').text ()));
+
+};
+addEditableMessage ();
+
+const stripHTML = html => new DOMParser().parseFromString(html, 'text/html').body.textContent || '';
+
+const getOneMoreCharacter = text => target => text.substr (0, target.text ().length+1);
+
+const typeCharacter = text => target =>
+  target.text (getOneMoreCharacter (text) (target)) &&
+  scrollToBottomOfMessages () &&
+  target;
+
+const type = strippedFullText => target => resolve =>
+  target.text () !== strippedFullText ?
+    setTimeout(
+      () => type (strippedFullText) (typeCharacter (strippedFullText) (target)) (resolve),
+      20) :
+    resolve (target);
+
+const typing = fullText => target => new Promise (resolve => type (stripHTML (fullText)) (target) (resolve));
+
 const sendMessage = message => {
   if (!message) return;
   turnOffAllContenteditable ();
@@ -38,8 +67,12 @@ const sendMessage = message => {
   askAI (message)
     .done (response => {
       const newMessage = $ (newResponse);
-      $ ('#messages').append (newMessage);
-      typing (newMessage, response.response);
+      $ ('#messages').append ($ (newResponse));
+      typing (response.response) (newMessage.find ('.typing'))
+        .then (() => {
+          newMessage.find ('.text').html (response.response);
+          addEditableMessage ();
+        });
       $ ('.send').remove ();
       logDebugResponsePayload (response);
     })
@@ -52,31 +85,4 @@ const sendMessage = message => {
 const sendMenuMessage = message => {
   $ ('div[contenteditable=true]').text (message);
   return sendMessage (message);
-};
-
-const addEditableMessage = () => {
-  const newMessage = $ (editableMessage).on ('keydown', event => event.keyCode === 13 ? sendMessage (event.target.innerText) : '');
-  $ ('#messages').append (newMessage);
-  scrollToBottom ($ ('#messages').get(0));
-  focus (document.querySelector('div[contenteditable=true]'));
-  $ ('.send').on ('click', event => sendMessage ($ (event.target).parent ().find ('.text').text ()));
-
-};
-addEditableMessage ();
-
-const stripHTML = html => new DOMParser().parseFromString(html, 'text/html').body.textContent || '';
-
-const typing = (jQueryElement, fullText) => {
-  if (!jQueryElement.length || !fullText) return;
-  const target = jQueryElement.find ('.typing');
-  const strippedFullText = stripHTML (fullText);
-  const currentText = target.text ();
-  if (currentText !== strippedFullText) {
-    target.text (strippedFullText.substr (0, currentText.length+1));
-    scrollToBottom ($ ('#messages').get(0));
-    setTimeout(() => typing (jQueryElement, fullText), 20);
-  } else {
-    jQueryElement.find ('.text').html (fullText);
-    addEditableMessage ();
-  }
 };
