@@ -5,15 +5,31 @@ const editableMessage =
      <div class="send">[ Send ]</div>
    </div>`;
 
-const newResponse = `<div class="message ai"><div class="text"><span class="typing"></span></div></div>`;
+const newResponse =
+  `<div class="message ai">
+     <div class="text"><span class="typing"></span></div>
+   </div>`;
 
 const focus = target => setTimeout(() => target.focus (), 0);
 
-const scrollToBottom = target => target.scrollTop = target.scrollHeight;
+const scrollToBottom = target => target.scrollTop = target.scrollHeight && target;
 
 const turnOffAllContenteditable = () => $ ('[contenteditable=true]').attr ('contenteditable', 'false');
 
 const askAI = message => $.post ('/api/query', {message: message});
+
+const logDebugResponsePayload = response => {
+    // payload is only provided in dev environment, the data is not available in prod at all
+    if (response.payload) {
+        const intent = response.payload[0].queryResult.intent;
+        console.log ('query:', response.query);
+        console.log ('  response:', response.response);
+        console.log ('  intent:', intent ? intent.displayName : 'unknown');
+        console.log ('  parameters:', response.payload[0].queryResult.parameters.fields);
+        console.log (response.payload);
+    }
+    return response;
+};
 
 const sendMessage = message => {
   if (!message) return;
@@ -25,14 +41,7 @@ const sendMessage = message => {
       $ ('#messages').append (newMessage);
       typing (newMessage, response.response);
       $ ('.send').remove ();
-      if (response.payload) {
-        console.log ('query:', response.query);
-        console.log ('  response:', response.response);
-        const intent = response.payload[0].queryResult.intent;
-        console.log ('  intent:', intent ? intent.displayName : 'unknown');
-        console.log ('  parameters:', response.payload[0].queryResult.parameters.fields);
-        console.log (response.payload);
-      }
+      logDebugResponsePayload (response);
     })
     .fail (error => {
       console.log ('error', error);
