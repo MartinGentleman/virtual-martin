@@ -30,5 +30,5 @@ const sendQuery = (query, session) =>
   sessionClient.detectIntent(getRequest(query, getSessionID (sessionIDFromBrowserSession (session))));
 
 module.exports = {
-  sendQuery: sendQuery
+  sendQuery
 };

@@ -1,0 +1,17 @@
+<% if (paginate.hasPreviousPages || paginate.hasNextPages (pageCount)) { %>
+<p>
+    <% if (paginate.hasPreviousPages) {  %>
+    <a href="<%= paginate.href ({ page: 1 }) %>">[ First ]</a>
+    <a href="<%= paginate.href (true) %>">[ Prev ]</a>
+    <% } %>
+    <% if (pages) {  %>
+    <% pages.forEach (page => { %>
+    <a href="<%= page.url %>"><%= page.number %></a>
+    <% });%>
+    <% } %>
+    <% if (paginate.hasNextPages (pageCount)) {  %>
+    <a href="<%= paginate.href () %>">[ Next ]</a>
+    <a href="<%= paginate.href ({ page: pageCount }) %>">[ Last ]</a>
+    <% } %>
+</p>
+<% } %>

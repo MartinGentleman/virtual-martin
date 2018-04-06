@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/header.ejs %>
+</head>
+<body>
+<header>
+  <h1>Visitors</h1>
+  <% include ../partials/admin-nav.ejs %>
+</header>
+<article style="margin:100px auto;max-width:1024px;padding:30px;">
+  <% visitors.forEach (visitor => { %>
+  <p>
+    <%= visitor.firstName %> <%= visitor.lastName %>
+  </p>
+  <% });%>
+  <% include ../partials/paginate.ejs %>
+</article>
+<% include ../partials/footer.ejs %>
+</body>
+</html>

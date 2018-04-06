@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ../partials/header.ejs %>
+</head>
+<body>
+<header>
+    <h1>Conversations</h1>
+    <% include ../partials/admin-nav.ejs %>
+</header>
+<article style="margin:100px auto;max-width:1024px;padding:30px;">
+    <% conversations.forEach (conversation => { %>
+    <p>
+        <%= conversation.updated %><br />
+        <%= conversation.query %><br />
+        <%= conversation.response %><br />
+        <%= conversation.intent %>
+    </p>
+    <hr />
+    <% });%>
+    <% include ../partials/paginate.ejs %>
+</article>
+<% include ../partials/footer.ejs %>
+</body>
+</html>

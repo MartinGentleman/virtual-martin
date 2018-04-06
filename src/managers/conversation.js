@@ -12,7 +12,10 @@ const saveData = (result, session) =>
 
 const count = async () => Model.count ({});
 
+const paginate = async (limit, skip) => Model.find ({}).limit (limit).skip (skip).lean ().exec ();
+
 module.exports = {
-  saveData: saveData,
-  count: count
+  saveData,
+  count,
+  paginate
 };

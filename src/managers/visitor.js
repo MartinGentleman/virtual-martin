@@ -16,7 +16,7 @@ const saveData = (result, session) => {
       Model.findOneAndUpdate (
         { sessionID: session.AISessionID },
         visitor,
-        { upsert:true }
+        { upsert: true }
       ).catch (err => console.error (err));
     }
   }
@@ -24,7 +24,10 @@ const saveData = (result, session) => {
 
 const count = async () => Model.count ({});
 
+const paginate = async (limit, skip) => Model.find ({}).limit (limit).skip (skip).lean ().exec ();
+
 module.exports = {
-  saveData: saveData,
-  count: count
+  saveData,
+  count,
+  paginate
 };
