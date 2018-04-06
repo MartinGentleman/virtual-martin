@@ -67,7 +67,7 @@ const sendMessage = message => {
   askAI (message)
     .done (response => {
       const newMessage = $ (newResponse);
-      $ ('#messages').append ($ (newResponse));
+      $ ('#messages').append (newMessage);
       typing (response.response) (newMessage.find ('.typing'))
         .then (() => {
           newMessage.find ('.text').html (response.response);
