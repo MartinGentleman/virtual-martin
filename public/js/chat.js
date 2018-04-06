@@ -69,17 +69,17 @@
     const sendButton = $ ('.send');
     sendButton.text ('[ Sending... ]');
     const newMessage = $ (newResponse);
-    $ ('#messages').append (newMessage);
     askAI (message)
-    .done (response =>
-      logDebugResponsePayload (response) &&
-      sendButton.remove () &&
-      typing (stripHTML (response.response)) (newMessage.find ('.typing'))
-      .then (() => finishAIResponse (response.response) (newMessage))
-    )
-    .fail (() =>
-      sendButton.remove () &&
-      finishAIResponse ('I have trouble communicating with my server.') (newMessage));
+      .always (() => $ ('#messages').append (newMessage))
+      .done (response =>
+        logDebugResponsePayload (response) &&
+        sendButton.remove () &&
+        typing (stripHTML (response.response)) (newMessage.find ('.typing'))
+        .then (() => finishAIResponse (response.response) (newMessage))
+      )
+      .fail (() =>
+        sendButton.remove () &&
+        finishAIResponse ('I have trouble communicating with my server.') (newMessage));
   };
 
   window.sendMenuMessage = message => {
