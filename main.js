@@ -8,8 +8,8 @@ const app = express ();
 const router = express.Router ();
 const mongoose = require ('mongoose');
 const MongoStore = require ('connect-mongo')(session);
-const VisitorModel = require ('./src/visitor-model');
-const ConversationModel = require ('./src/conversation-model');
+const Visitor = require ('./src/visitor');
+const Conversation = require ('./src/conversation');
 
 mongoose
   .connect (process.env.MONGODB_URI)
@@ -34,58 +34,29 @@ app
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render ('pages/index'));
 
-const saveConversationData = (result, session) =>
-  new ConversationModel ({
-    sessionID: session.AISessionID,
-    query: result.queryText,
-    response: result.fulfillmentText ? result.fulfillmentText : '',
-    intent: result.intent ? result.intent.displayName : '',
-    parameters: result.parameters.fields
-  }).save ()
-    .catch (err => console.error (err));
-
-const saveVisitorData = (result, session) => {
-  if (result.intent) {
-    const fields = result.parameters.fields;
-    if (result.intent.displayName === 'Get Name') {
-      const visitor = {};
-      if (fields ['given-name'] && fields ['given-name'].stringValue) {
-        visitor.firstName = fields ['given-name'].stringValue;
-        console.log(`${session.AISessionID}: first name ${fields ['given-name'].stringValue}.`);
-      }
-      if (fields ['last-name'] && fields ['last-name'].stringValue) {
-        visitor.lastName = fields ['last-name'].stringValue;
-        console.log(`${session.AISessionID}: last name ${fields ['last-name'].stringValue}.`);
-      }
-      VisitorModel.findOneAndUpdate (
-        { sessionID: session.AISessionID },
-        visitor,
-        { upsert:true }
-      ).catch (err => console.error (err));
-    }
-  }
-};
-
 router.route ('/query')
-  .post ((req, res) => {
-    AI.sendQuery (req.body.message, req.session).then (responses => {
-      const result = responses[0].queryResult;
-      saveConversationData (result, req.session);
-      saveVisitorData (result, req.session);
-      const response = {
-        "query": result.queryText,
-        "response": result.fulfillmentText ? result.fulfillmentText : 'hmm...'
-      };
-      if (process.env.NODE_ENV === 'dev') response ['payload'] = responses;
-      res.json (response);
-    }).catch (err => {
-      console.error (err);
-      res.json ({
-        "query": req.body.message,
-        "response": "That's awkward... I am experiencing a bit of a server problem. The real Martin is being notified of that."
-      });
-    });
-  });
+  .post ((req, res) =>
+    AI
+      .sendQuery (req.body.message, req.session)
+        .then (responses => {
+          const result = responses[0].queryResult;
+          Conversation.saveData (result, req.session);
+          Visitor.saveData (result, req.session);
+          const response = {
+            "query": result.queryText,
+            "response": result.fulfillmentText ? result.fulfillmentText : 'hmm...'
+          };
+          if (process.env.NODE_ENV === 'dev') response ['payload'] = responses;
+          res.json (response);
+        })
+        .catch (err => {
+          console.error (err);
+          res.json ({
+            "query": req.body.message,
+            "response": "That's awkward... I am experiencing a bit of a server problem. The real Martin is being notified of that."
+          });
+        })
+  );
 
 app.use('/api', router);
 
