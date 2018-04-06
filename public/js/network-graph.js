@@ -80,7 +80,7 @@ function initialize() {
 	});
 	redrawOutput(svgElem, nodes, edges);
 
-	if (!isBrowser.firefox) {
+	if (isBrowser.chrome || isBrowser.safari) {
     // Periodically execute stepFrame() to create animation
     setInterval(stepFrame, FRAME_INTERVAL);
 	}
