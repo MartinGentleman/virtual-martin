@@ -23,16 +23,24 @@ app.use (session ({
 }));
 
 app
-  .use(bodyParser.urlencoded ({ extended: true }))
-  .use(bodyParser.json ());
+  .use (bodyParser.urlencoded ({ extended: true }))
+  .use (bodyParser.json ());
 
 app
-  .use(express.static (path.join (__dirname, 'public')))
-  .set('views', path.join (__dirname, 'views'))
-  .set('view engine', 'ejs')
-  .get('/', (req, res) => res.render ('pages/index'));
+  .use (express.static (path.join (__dirname, 'public')))
+  .set ('views', path.join (__dirname, 'views'))
+  .set ('view engine', 'ejs')
+  .get ('/', (req, res) => res.render ('pages/index'));
 
-app.use('/api', api);
+app.use ('/api/v1', api);
+
+if (process.env.NODE_ENV === 'dev') {
+  const paginate = require('express-paginate');
+  const admin = require ('./src/routers/admin');
+
+  app.use (paginate.middleware (10, 50));
+  app.use ('/admin', admin);
+}
 
 // redirect everything else to homepage
 app.use ((req, res) => {

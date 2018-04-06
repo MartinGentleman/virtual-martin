@@ -1,4 +1,4 @@
-const VisitorModel = require ('../models/visitor-model');
+const Model = require ('../models/visitor-model');
 
 const saveData = (result, session) => {
   if (result.intent) {
@@ -13,7 +13,7 @@ const saveData = (result, session) => {
         visitor.lastName = fields ['last-name'].stringValue;
         console.log(`${session.AISessionID}: last name ${fields ['last-name'].stringValue}.`);
       }
-      VisitorModel.findOneAndUpdate (
+      Model.findOneAndUpdate (
         { sessionID: session.AISessionID },
         visitor,
         { upsert:true }
@@ -22,6 +22,9 @@ const saveData = (result, session) => {
   }
 };
 
+const count = async () => Model.count ({});
+
 module.exports = {
-  saveData: saveData
+  saveData: saveData,
+  count: count
 };

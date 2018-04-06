@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ../partials/header.ejs %>
+</head>
+<body>
+  <header>
+    <h1>Here be dragons</h1>
+    <% include ../partials/admin-nav.ejs %>
+  </header>
+  <article style="margin:100px auto;max-width:1024px;padding:30px;">
+    <p>
+      Number of visitors: <%= numberOfVisitors %><br />
+      Number of conversations: <%= numberOfConversations %>
+    </p>
+  </article>
+  <% include ../partials/footer.ejs %>
+</body>
+</html>

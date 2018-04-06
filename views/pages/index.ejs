@@ -2,6 +2,18 @@
 <html>
 <head>
   <% include ../partials/header.ejs %>
+  <% if (process.env.GOOGLE_TRACKING_ID) { %>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-116684637-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', '<%= process.env.GOOGLE_TRACKING_ID %>');
+  </script>
+  <% } %>
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:300" rel="stylesheet">
 </head>
 
 <body>
@@ -32,11 +44,7 @@
       </div>
     </div>
   </article>
-  <footer>
-    © 2018 by Martin Novak
-  </footer>
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@7/dist/polyfill.min.js"></script>
+  <% include ../partials/footer.ejs %>
   <% if (process.env.NODE_ENV === 'dev') { %>
   <script src="/js/is-browser.js"></script>
   <script src="/js/network-graph.js"></script>

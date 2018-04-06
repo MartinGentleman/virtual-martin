@@ -1,7 +1,7 @@
-const ConversationModel = require ('../models/conversation-model');
+const Model = require ('../models/conversation-model');
 
 const saveData = (result, session) =>
-  new ConversationModel ({
+  new Model ({
     sessionID: session.AISessionID,
     query: result.queryText,
     response: result.fulfillmentText ? result.fulfillmentText : '',
@@ -10,6 +10,9 @@ const saveData = (result, session) =>
   }).save ()
   .catch (err => console.error (err));
 
+const count = async () => Model.count ({});
+
 module.exports = {
-  saveData: saveData
+  saveData: saveData,
+  count: count
 };

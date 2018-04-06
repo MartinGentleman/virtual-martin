@@ -18,7 +18,7 @@
 
   const turnOffAllContenteditable = () => $ ('[contenteditable=true]').attr ('contenteditable', 'false');
 
-  const askAI = message => $.post ('/api/query', {message: message});
+  const askAI = message => $.post ('/api/v1/query', {message: message});
 
   const logDebugResponsePayload = response => {
     // payload is only provided in dev environment, the data is not available in prod at all
