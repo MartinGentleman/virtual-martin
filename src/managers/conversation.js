@@ -1,4 +1,4 @@
-const ConversationModel = require ('./conversation-model');
+const ConversationModel = require ('../models/conversation-model');
 
 const saveData = (result, session) =>
   new ConversationModel ({

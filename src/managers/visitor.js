@@ -1,4 +1,4 @@
-const VisitorModel = require ('./visitor-model');
+const VisitorModel = require ('../models/visitor-model');
 
 const saveData = (result, session) => {
   if (result.intent) {
