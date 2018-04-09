@@ -1,8 +1,8 @@
 const Model = require ('../models/conversation-model');
 
-const saveData = (result, session) =>
+const saveData = result => request =>
   new Model ({
-    sessionID: session.AISessionID,
+    sessionID: request.session.AISessionID,
     query: result.queryText,
     response: result.fulfillmentText ? result.fulfillmentText : '',
     intent: result.intent ? result.intent.displayName : '',

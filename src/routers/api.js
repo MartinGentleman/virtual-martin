@@ -9,8 +9,8 @@ router.route ('/query')
     .sendQuery (req.body.message, req.session)
     .then (responses => {
       const result = responses[0].queryResult;
-      Conversation.saveData (result, req.session);
-      Visitor.saveData (result, req.session);
+      Visitor.saveData (result) (req);
+      Conversation.saveData (result) (req);
       const response = {
         "query": result.queryText,
         "response": result.fulfillmentText ? result.fulfillmentText : 'hmm...'
