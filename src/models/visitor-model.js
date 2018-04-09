@@ -6,6 +6,11 @@ const VisitorSchema = new mongoose.Schema ({
     required: true,
     unique: true
   },
+  ip: String,
+  userAgent: String,
+  country: String,
+  region: String,
+  city: String,
   firstName: String,
   lastName: String,
   phone: String,

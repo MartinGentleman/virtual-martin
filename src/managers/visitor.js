@@ -3,24 +3,29 @@ const Model = require ('../models/visitor-model');
 const __ = require ('../utilities/utilities');
 
 const saveData = result => request => {
-
   const fields = result.parameters.fields;
   let visitor = {};
-
   if (!request.session.visitor) {
     const ip = request.headers ['x-forwarded-for'] || request.connection.remoteAddress;
-    const geo = geoip.lookup (ip);
-    visitor = {
-      ip: ip,
-      userAgent: request.headers ['User-Agent'],
-      country: geo.country,
-      region: geo.region,
-      city: geo.city
+    const userAgent = request.headers ['User-Agent'];
+    if (ip !== '::1') {
+      const geo = geoip.lookup (ip);
+      visitor = {
+        ip: ip,
+        userAgent: userAgent,
+        country: geo.country,
+        region: geo.region,
+        city: geo.city
+      };
+    } else {
+      visitor = {
+        ip: '127.0.0.1',
+        userAgent: userAgent
+      }
     }
   } else {
     visitor = request.session.visitor;
   }
-
   if (result.intent) {
     if (fields ['given-name'] && fields ['given-name'].stringValue) {
       visitor.firstName = fields ['given-name'].stringValue;
@@ -30,7 +35,7 @@ const saveData = result => request => {
     }
   }
 
-  if (!__.isObjectEqual (request.session.visitor) (visitor)) {
+  if (!request.session.visitor || !__.isObjectEqual (request.session.visitor) (visitor)) {
     Model.findOneAndUpdate (
       { sessionID: request.session.AISessionID },
       visitor,
