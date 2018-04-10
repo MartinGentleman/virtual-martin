@@ -11,7 +11,11 @@
 <article style="margin:100px auto;max-width:1024px;padding:30px;">
   <% visitors.forEach (visitor => { %>
   <p>
-    <%= visitor.firstName %> <%= visitor.lastName %>
+    <%= visitor.firstName %> <%= visitor.lastName %><br />
+    IP: <%= visitor.ip %><br />
+    Country: <%= visitor.country %><br />
+    City: <%= visitor.city %><br />
+    Agent: <%= visitor.userAgent %>
   </p>
   <% });%>
   <% include ../partials/paginate.ejs %>
