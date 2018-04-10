@@ -9,6 +9,7 @@
   <% include ../partials/admin-nav.ejs %>
 </header>
 <article style="margin:100px auto;max-width:1024px;padding:30px;">
+  <% include ../partials/paginate.ejs %>
   <% visitors.forEach (visitor => { %>
   <p>
     <%= visitor.firstName %> <%= visitor.lastName %><br />
