@@ -5,9 +5,10 @@ const __ = require ('../utilities/utilities');
 const saveData = result => request => {
   const fields = result.parameters.fields;
   let visitor = {};
+
   if (!request.session.visitor) {
     const ip = request.headers ['x-forwarded-for'] || request.connection.remoteAddress;
-    const userAgent = request.headers ['User-Agent'];
+    const userAgent = request.headers ['user-agent'];
     if (ip !== '::1') {
       const geo = geoip.lookup (ip);
       visitor = {
