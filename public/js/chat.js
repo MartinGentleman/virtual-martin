@@ -75,17 +75,26 @@
         logDebugResponsePayload (response) &&
         sendButton.remove () &&
         typing (stripHTML (response.response)) (newMessage.find ('.typing'))
-        .then (() => finishAIResponse (response.response) (newMessage))
+          .then (() => finishAIResponse (response.response) (newMessage))
       )
       .fail (() =>
         sendButton.remove () &&
         finishAIResponse ('I have trouble communicating with my server.') (newMessage));
   };
 
+  const initialize = () => {
+    const target = $ ('#messages .message.ai:last');
+    const textElement = target.find ('.text');
+    const message = textElement.html ();
+    textElement.html ('<span class="typing"></span>');
+    typing (stripHTML (message)) (target.find ('.typing'))
+      .then (() => finishAIResponse (message) (target));
+  };
+
+  initialize ();
+
   window.sendMenuMessage = message => {
     $ ('div[contenteditable=true]').text (message);
     sendMessage (message);
   };
-
-  addEditableMessage ();
 }
