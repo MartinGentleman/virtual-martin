@@ -13,7 +13,7 @@
 
   const focus = target => setTimeout (() => target.focus (), 0);
 
-  const scrollToBottom = target => target.scrollTop = target.scrollHeight && target;
+  const scrollToBottom = target => (target.scrollTop = target.scrollHeight) && target;
   const scrollToBottomOfMessages = () => scrollToBottom ($ ('#messages').get (0));
 
   const turnOffAllContenteditable = () => $ ('[contenteditable=true]').attr ('contenteditable', 'false');
