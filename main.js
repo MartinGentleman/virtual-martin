@@ -1,4 +1,5 @@
 const express = require ('express');
+const compression = require ('compression');
 const session = require ('express-session');
 const path = require ('path');
 const bodyParser = require ('body-parser');
@@ -21,6 +22,9 @@ app.use (session ({
   resave: true,
   saveUninitialized: true
 }));
+
+
+app.use (compression());
 
 app
   .use (bodyParser.urlencoded ({ extended: true }))
