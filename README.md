@@ -23,9 +23,9 @@ The project itself has been created to use Heroku and Google Dialogflow. Heroku 
 
 # Setup
 
-With heroku, you start the application by *heroku local* using the Heroku CLI.
+With Heroku, you start the application by *heroku local* using the Heroku CLI.
 
-Without heroku, you can run *npm start* which also takes care of loading local .env file.
+Without Heroku, you can run *npm start* which also takes care of loading local .env file.
 
 For session management and data you will need to connect your application with MongoDB.
 
