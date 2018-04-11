@@ -63,9 +63,7 @@
   let isAIResponding = false;
 
   const toggleAIResponding = () => {
-    console.log (isAIResponding);
     isAIResponding = !isAIResponding;
-    console.log (isAIResponding);
     if (isAIResponding === true) $ ('.dialogueAnchor').css ('color', '#666');
     else $ ('.dialogueAnchor').css ('color', '#000');
     return isAIResponding;
