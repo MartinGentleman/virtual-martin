@@ -2,6 +2,7 @@ const router = require ('express').Router ();
 const paginate = require('express-paginate');
 const Conversation = require ('../managers/conversation');
 const Visitor = require ('../managers/visitor');
+const AIResponse = require ('../managers/ai-response');
 
 router.route ('/')
   .get (async (req, res) => {
@@ -49,6 +50,23 @@ router.route ('/conversations')
     res.render ('pages/admin-conversations', {
       conversations,
       conversationCount,
+      pageCount,
+      pages: paginate.getArrayPages (req) (3, pageCount, req.query.page)
+    });
+  });
+
+router.route ('/ai-responses')
+  .get (async (req, res) => {
+    const [ responses, responseCount ] = await Promise.all([
+      AIResponse.paginate (req.query.limit, req.skip),
+      AIResponse.count ()
+    ]);
+
+    const pageCount = Math.ceil (responseCount / req.query.limit);
+
+    res.render ('pages/admin-ai-responses', {
+      responses,
+      responseCount,
       pageCount,
       pages: paginate.getArrayPages (req) (3, pageCount, req.query.page)
     });
