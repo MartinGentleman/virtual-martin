@@ -33,13 +33,67 @@
     <% include ../partials/nav.ejs %>
   </header>
   <article>
-    <div id="chatBackground" class="whiteOpacity chatWindow">&nbsp;</div>
-    <div id="chat" class="chatWindow">
-      <div id="messages">
-        <div class="message ai">
-          <div class="text">
+    <div id="chatBackground" class="appContent">
+      <div class="whiteOpacity leftColumn">&nbsp</div>
+      <div class="whiteOpacity rightColumn">&nbsp</div>
+    </div>
+    <div class="appContent">
+      <div id="chat" class="chatWindow leftColumn">
+        <div id="messages">
+          <div class="message ai">
+            <div class="text">
               <%- process.env.DEFAULT_WELCOME ? process.env.DEFAULT_WELCOME : 'Hi. I am Virtual Martin.' %>
+            </div>
           </div>
+        </div>
+      </div>
+      <div id="help" class="rightColumn">
+        <div id="helpContent">
+          <p>
+            If you are left speechless, you can try asking these:
+          </p>
+          <ul>
+            <li>
+              [ <a href="#" class="dialogueAnchor" onclick="sendMenuMessage ($ (this).text ());return false;">
+                Tell me about yourself, Martin.
+              </a> ]
+            </li>
+            <li>
+              [ <a href="#" class="dialogueAnchor" onclick="sendMenuMessage ($ (this).text ());return false;">
+                What are your strengths?
+              </a> ]
+            </li>
+            <li>
+              [ <a href="#" class="dialogueAnchor" onclick="sendMenuMessage ($ (this).text ());return false;">
+                What languages do you speak?
+              </a> ]
+            </li>
+            <li>
+              [ <a href="#" class="dialogueAnchor" onclick="sendMenuMessage ($ (this).text ());return false;">
+                Where are you from?
+              </a> ]
+            </li>
+            <li>
+              [ <a href="#" class="dialogueAnchor" onclick="sendMenuMessage ($ (this).text ());return false;">
+                Why New Zealand?
+              </a> ]
+            </li>
+            <li>
+              [ <a href="#" class="dialogueAnchor" onclick="sendMenuMessage ($ (this).text ());return false;">
+                Do you have visa?
+              </a> ]
+            </li>
+            <li>
+              [ <a href="#" class="dialogueAnchor" onclick="sendMenuMessage ($ (this).text ());return false;">
+                When can we interview you?
+              </a> ]
+            </li>
+            <li>
+              [ <a href="#" class="dialogueAnchor" onclick="sendMenuMessage ($ (this).text ());return false;">
+                How can I contact you?
+              </a> ]
+            </li>
+          </ul>
         </div>
       </div>
     </div>

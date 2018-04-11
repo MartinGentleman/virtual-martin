@@ -27,13 +27,31 @@ nav a {
 nav a:hover {
     font-weight: bold;
 }
+#help ul {
+    list-style-type: none;
+}
+#help li {
+    display: block;
+    padding-bottom: 5px;
+}
+#help li a {
+    text-decoration: none;
+}
 .whiteOpacity {
     background-color: #fff;
     opacity: 0.5;
+    height: 100%;
 }
 #messages {
     max-height: 100%;
     overflow: auto;
+    padding: 20px;
+}
+.rightColumn {
+    display: none;
+}
+#helpContent {
+    padding: 20px;
 }
 .message {
     line-height: 1.6;
@@ -65,7 +83,7 @@ nav a:hover {
 .typing {
     border-right: 2px solid #666
 }
-.chatWindow {
+.appContent {
     position: absolute;
     top: 100px;
     bottom: 50px;
@@ -94,8 +112,24 @@ header {
     text-align: center;
 }
 @media screen and (min-width: 1024px) {
-    .chatWindow {
-        width: 500px;
+    .appContent {
+        width: 900px;
+    }
+    #help {
+        display: block;
+    }
+    .leftColumn {
+        display: block;
+        float: left;
+        width: 440px;
+        height: 100%;
+    }
+    .rightColumn {
+        display: block;
+        float: left;
+        width: 440px;
+        height: 100%;
+        margin-left: 20px;
     }
     * {
         font-size: 16px;

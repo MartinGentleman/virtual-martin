@@ -60,11 +60,27 @@
 
   const typing = fullText => target => new Promise (resolve => type (fullText) (target) (resolve));
 
-  const finishAIResponse = message => JQueryElement =>
-    JQueryElement.find ('.text').html (message) && addEditableMessage () && JQueryElement;
+  let isAIResponding = false;
+
+  const toggleAIResponding = () => {
+    console.log (isAIResponding);
+    isAIResponding = !isAIResponding;
+    console.log (isAIResponding);
+    if (isAIResponding === true) $ ('.dialogueAnchor').css ('color', '#666');
+    else $ ('.dialogueAnchor').css ('color', '#000');
+    return isAIResponding;
+  };
+
+  const finishAIResponse = message => JQueryElement => {
+    JQueryElement.find ('.text').html (message);
+    addEditableMessage ();
+    toggleAIResponding ();
+    return JQueryElement;
+  };
 
   const sendMessage = message => {
     if (!message) return;
+    toggleAIResponding ();
     turnOffAllContenteditable ();
     const sendButton = $ ('.send');
     sendButton.text ('[ Sending... ]');
@@ -83,6 +99,7 @@
   };
 
   const initialize = () => {
+    toggleAIResponding ();
     const target = $ ('#messages .message.ai:last');
     const textElement = target.find ('.text');
     const message = textElement.html ();
@@ -94,6 +111,7 @@
   initialize ();
 
   window.sendMenuMessage = message => {
+    if (isAIResponding) return;
     $ ('div[contenteditable=true]').text (message);
     sendMessage (message);
   };
