@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ../partials/header.ejs %>
+</head>
+<body>
+<header>
+    <h1>Here be dragons</h1>
+</header>
+<article style="margin:100px auto;max-width:1024px;padding:30px;">
+    <% if (failed) { %>
+    <p>
+        Wrong! More luck next time ;)
+    </p>
+    <% } %>
+    <form method="post">
+        <div>
+            <input type="password" name="password" />
+        </div>
+        <div>
+            <input type="submit" />
+        </div>
+    </form>
+</article>
+<% include ../partials/footer.ejs %>
+</body>
+</html>

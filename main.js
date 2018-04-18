@@ -24,7 +24,7 @@ app.use (session ({
 }));
 
 
-app.use (compression());
+app.use (compression ());
 
 app
   .use (bodyParser.urlencoded ({ extended: true }))

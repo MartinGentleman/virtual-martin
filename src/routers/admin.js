@@ -1,10 +1,26 @@
 const router = require ('express').Router ();
-const paginate = require('express-paginate');
+const paginate = require ('express-paginate');
+const md5 = require ('md5');
 const Conversation = require ('../managers/conversation');
 const Visitor = require ('../managers/visitor');
 const AIResponse = require ('../managers/ai-response');
 
+// router.use ((req, res, next) => !req.session.isAdmin ? res.redirect ('/') : next ());
+
 router.route ('/')
+  .get ((req, res) => res.render ('pages/admin-login'))
+  .post ((req, res) => {
+    if (md5 (req.body.password) === process.env.PASSWORD_MD5) {
+      req.session.isAdmin = true;
+      res.redirect ('/index');
+    } else {
+      res.render ('pages/admin-login', {
+        failed: true
+      });
+    }
+  });
+
+router.route ('/index')
   .get (async (req, res) => {
     const [
       numberOfVisitors,
