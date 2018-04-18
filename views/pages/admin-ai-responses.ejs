@@ -10,7 +10,7 @@
 </header>
 <article style="margin:100px auto;max-width:1024px;padding:30px;">
     <% include ../partials/paginate.ejs %>
-    <% responses.forEach (response => { %>
+    <% model.forEach (response => { %>
     <p>
         <%= response.updated %><br />
         <%= response.topic %><br />

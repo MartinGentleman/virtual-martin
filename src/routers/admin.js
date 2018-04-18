@@ -45,55 +45,26 @@ router.route ('/index')
       });
   });
 
-router.route ('/visitors')
-  .get (async (req, res) => {
-    const [ visitors, visitorCount ] = await Promise.all([
-      Visitor.paginate (req.query.limit, req.skip),
-      Visitor.count ()
-    ]);
+const paginateRoute = render => manager => async (req, res) => {
+  const [ model, modelCount ] = await Promise.all([
+    manager.paginate (req.query.limit, req.skip),
+    manager.count ()
+  ]);
 
-    const pageCount = Math.ceil (visitorCount / req.query.limit);
+  const pageCount = Math.ceil (modelCount / req.query.limit);
 
-    res.render ('pages/admin-visitors', {
-      visitors,
-      visitorCount,
-      pageCount,
-      pages: paginate.getArrayPages (req) (3, pageCount, req.query.page)
-    });
+  res.render (render, {
+    model,
+    modelCount,
+    pageCount,
+    pages: paginate.getArrayPages (req) (3, pageCount, req.query.page)
   });
+};
 
-router.route ('/conversations')
-  .get (async (req, res) => {
-    const [ conversations, conversationCount ] = await Promise.all([
-      Conversation.paginate (req.query.limit, req.skip),
-      Conversation.count ()
-    ]);
+router.route ('/visitors').get (paginateRoute ('pages/admin-visitors') (Visitor));
 
-    const pageCount = Math.ceil (conversationCount / req.query.limit);
+router.route ('/conversations').get (paginateRoute ('pages/admin-conversations') (Conversation));
 
-    res.render ('pages/admin-conversations', {
-      conversations,
-      conversationCount,
-      pageCount,
-      pages: paginate.getArrayPages (req) (3, pageCount, req.query.page)
-    });
-  });
-
-router.route ('/ai-responses')
-  .get (async (req, res) => {
-    const [ responses, responseCount ] = await Promise.all([
-      AIResponse.paginate (req.query.limit, req.skip),
-      AIResponse.count ()
-    ]);
-
-    const pageCount = Math.ceil (responseCount / req.query.limit);
-
-    res.render ('pages/admin-ai-responses', {
-      responses,
-      responseCount,
-      pageCount,
-      pages: paginate.getArrayPages (req) (3, pageCount, req.query.page)
-    });
-  });
+router.route ('/ai-responses').get (paginateRoute ('pages/admin-ai-responses') (AIResponse));
 
 module.exports = router;

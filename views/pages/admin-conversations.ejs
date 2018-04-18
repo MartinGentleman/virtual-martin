@@ -10,7 +10,7 @@
 </header>
 <article style="margin:100px auto;max-width:1024px;padding:30px;">
     <% include ../partials/paginate.ejs %>
-    <% conversations.forEach (conversation => { %>
+    <% model.forEach (conversation => { %>
     <p>
         <%= conversation.updated %><br />
         <%= conversation.sessionID %><br />

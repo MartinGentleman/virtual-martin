@@ -10,7 +10,7 @@
 </header>
 <article style="margin:100px auto;max-width:1024px;padding:30px;">
   <% include ../partials/paginate.ejs %>
-  <% visitors.forEach (visitor => { %>
+  <% model.forEach (visitor => { %>
   <p>
     <%= visitor.updated %>
     <%= visitor.firstName %> <%= visitor.lastName %><br />
