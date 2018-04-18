@@ -5,6 +5,8 @@ const Conversation = require ('../managers/conversation');
 const Visitor = require ('../managers/visitor');
 const AIResponse = require ('../managers/ai-response');
 
+router.use (paginate.middleware (10, 50));
+
 router.use ((req, res, next) =>
   req.originalUrl !== '/admin' && !req.session.isAdmin ? res.redirect ('/') : next ());
 

@@ -6,6 +6,7 @@ const bodyParser = require ('body-parser');
 const mongoose = require ('mongoose');
 const MongoStore = require ('connect-mongo') (session);
 const api = require ('./src/routers/api.js');
+const admin = require ('./src/routers/admin');
 
 const PORT = process.env.PORT || 5000;
 const app = express ();
@@ -33,18 +34,12 @@ app
 app
   .use (express.static (path.join (__dirname, 'public')))
   .set ('views', path.join (__dirname, 'views'))
-  .set ('view engine', 'ejs')
-  .get ('/', (req, res) => res.render ('pages/index'));
+  .set ('view engine', 'ejs');
 
-app.use ('/api/v1', api);
-
-if (process.env.NODE_ENV === 'dev') {
-  const paginate = require('express-paginate');
-  const admin = require ('./src/routers/admin');
-
-  app.use (paginate.middleware (10, 50));
-  app.use ('/admin', admin);
-}
+app
+  .get ('/', (req, res) => res.render ('pages/index'))
+  .use ('/api/v1', api)
+  .use ('/admin', admin);
 
 // redirect everything else to homepage
 app.use ((req, res) => {
