@@ -35,6 +35,7 @@ const saveData = result => request => {
       visitor.lastName = fields ['last-name'].stringValue;
     }
   }
+  visitor.updated = Date.now ();
 
   if (!request.session.visitor || !__.isObjectEqual (request.session.visitor) (visitor)) {
     Model.findOneAndUpdate (
@@ -49,7 +50,7 @@ const saveData = result => request => {
 
 const count = async () => Model.count ({});
 
-const paginate = async (limit, skip) => Model.find ({}).limit (limit).skip (skip).lean ().exec ();
+const paginate = async (limit, skip) => Model.find ({}).sort ({updated: -1}).limit (limit).skip (skip).lean ().exec ();
 
 module.exports = {
   saveData,

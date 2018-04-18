@@ -12,7 +12,7 @@ const saveData = result => request =>
 
 const count = async () => Model.count ({});
 
-const paginate = async (limit, skip) => Model.find ({}).limit (limit).skip (skip).lean ().exec ();
+const paginate = async (limit, skip) => Model.find ({}).sort ({updated: -1}).limit (limit).skip (skip).lean ().exec ();
 
 module.exports = {
   saveData,

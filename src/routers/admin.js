@@ -9,7 +9,7 @@ router.use ((req, res, next) =>
   req.originalUrl !== '/admin' && !req.session.isAdmin ? res.redirect ('/') : next ());
 
 router.route ('/')
-  .get ((req, res) => res.render ('pages/admin-login', { failed: false }))
+  .get ((req, res) => req.session.isAdmin ? res.redirect ('/admin/index') : res.render ('pages/admin-login', { failed: false }))
   .post ((req, res) => {
     if (md5 (req.body.password) === process.env.PASSWORD_MD5) {
       req.session.isAdmin = true;

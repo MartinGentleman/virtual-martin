@@ -12,6 +12,7 @@
   <% include ../partials/paginate.ejs %>
   <% visitors.forEach (visitor => { %>
   <p>
+    <%= visitor.updated %>
     <%= visitor.firstName %> <%= visitor.lastName %><br />
     IP: <%= visitor.ip %><br />
     Country: <%= visitor.country %><br />
