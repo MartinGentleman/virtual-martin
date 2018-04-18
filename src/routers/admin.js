@@ -30,14 +30,10 @@ router.route ('/log-out')
 
 router.route ('/index')
   .get (async (req, res) => {
-    const [
-      numberOfVisitors,
-      numberOfConversations] =
-        await Promise
-          .all ([
-            Visitor.count (),
-            Conversation.count ()
-          ]);
+    const [ numberOfVisitors, numberOfConversations ] = await Promise .all ([
+      Visitor.count (),
+      Conversation.count ()
+    ]);
     res.render ('pages/admin-index',
       {
         numberOfVisitors,
@@ -66,5 +62,17 @@ router.route ('/visitors').get (paginateRoute ('pages/admin-visitors') (Visitor)
 router.route ('/conversations').get (paginateRoute ('pages/admin-conversations') (Conversation));
 
 router.route ('/ai-responses').get (paginateRoute ('pages/admin-ai-responses') (AIResponse));
+
+router.route ('/edit-ai-response')
+  .get ((req, res) => res.render ('pages/admin-edit-ai-response', {response: false}))
+  .post ((req, res) => {
+    const topic = {
+      topic: req.body.topic,
+      options: req.body.options.split (';').map (option => option.trim ()),
+      updated: Date.now ()
+    };
+    AIResponse.saveData (topic);
+    res.redirect ('/admin/ai-responses');
+  });
 
 module.exports = router;

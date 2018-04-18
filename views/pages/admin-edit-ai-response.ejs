@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ../partials/header.ejs %>
+</head>
+<body>
+<header>
+    <h1>New AI Response</h1>
+    <% include ../partials/admin-nav.ejs %>
+</header>
+<article style="margin:100px auto;max-width:1024px;padding:30px;">
+    <% include ../partials/ai-responses-nav.ejs %>
+    <form method="post">
+        <fieldset>
+            <div>
+                <input type="text" name="topic" placeholder="topic" />
+            </div>
+            <div>
+                <textarea name="options" rows="10" cols="50">I am an optional response in an array of optional responses;</textarea>
+            </div>
+            <div>
+                <input type="submit" />
+            </div>
+        </fieldset>
+    </form>
+</article>
+<% include ../partials/footer.ejs %>
+</body>
+</html>

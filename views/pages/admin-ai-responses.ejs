@@ -9,11 +9,12 @@
     <% include ../partials/admin-nav.ejs %>
 </header>
 <article style="margin:100px auto;max-width:1024px;padding:30px;">
+    <% include ../partials/ai-responses-nav.ejs %>
     <% include ../partials/paginate.ejs %>
     <% model.forEach (response => { %>
+    <p><%= response.updated %></p>
+    <h2><%= response.topic %></h2>
     <p>
-        <%= response.updated %><br />
-        <%= response.topic %><br />
         <%= response.options %>
     </p>
     <hr />

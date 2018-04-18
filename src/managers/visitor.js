@@ -38,7 +38,7 @@ const saveData = result => request => {
   visitor.updated = Date.now ();
 
   if (!request.session.visitor || !__.isObjectEqual (request.session.visitor) (visitor)) {
-    Model.findOneAndUpdate (
+    return Model.findOneAndUpdate (
       { sessionID: request.session.AISessionID },
       visitor,
       { upsert: true }
