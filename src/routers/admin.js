@@ -5,19 +5,25 @@ const Conversation = require ('../managers/conversation');
 const Visitor = require ('../managers/visitor');
 const AIResponse = require ('../managers/ai-response');
 
-// router.use ((req, res, next) => !req.session.isAdmin ? res.redirect ('/') : next ());
+router.use ((req, res, next) =>
+  req.originalUrl !== '/admin' && !req.session.isAdmin ? res.redirect ('/') : next ());
 
 router.route ('/')
-  .get ((req, res) => res.render ('pages/admin-login'))
+  .get ((req, res) => res.render ('pages/admin-login', { failed: false }))
   .post ((req, res) => {
     if (md5 (req.body.password) === process.env.PASSWORD_MD5) {
       req.session.isAdmin = true;
-      res.redirect ('/index');
+      res.redirect ('/admin/index');
     } else {
-      res.render ('pages/admin-login', {
-        failed: true
-      });
+      console.info (`SECURITY ERROR: wrong password '${req.body.password}' from ${req.ip}.`);
+      res.render ('pages/admin-login', { failed: true  });
     }
+  });
+
+router.route ('/log-out')
+  .get ((req, res) => {
+    req.session.isAdmin = false;
+    res.redirect ('/');
   });
 
 router.route ('/index')
