@@ -1,6 +1,7 @@
 const router = require ('express').Router ();
 const paginate = require ('express-paginate');
 const md5 = require ('md5');
+const {isEqual} = require ('../utilities/is-equal');
 const Conversation = require ('../managers/conversation');
 const Visitor = require ('../managers/visitor');
 const AIResponse = require ('../managers/ai-response');
@@ -13,7 +14,7 @@ router.use ((req, res, next) =>
 router.route ('/')
   .get ((req, res) => req.session.isAdmin ? res.redirect ('/admin/index') : res.render ('pages/admin-login', { failed: false }))
   .post ((req, res) => {
-    if (md5 (req.body.password) === process.env.PASSWORD_MD5) {
+    if (isEqual (md5 (req.body.password)) (process.env.PASSWORD_MD5)) {
       req.session.isAdmin = true;
       res.redirect ('/admin/index');
     } else {
