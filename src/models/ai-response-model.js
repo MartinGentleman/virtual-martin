@@ -6,7 +6,10 @@ const AIResponseSchema = new mongoose.Schema ({
     required: true,
     unique: true
   },
-  options: Array,
+  options: {
+    type: String,
+    required: true
+  },
   updated: {
     type: Date,
     default: Date.now

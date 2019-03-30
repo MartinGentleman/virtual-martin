@@ -1,6 +1,6 @@
 const geoip = require ('geoip-lite');
 const Model = require ('../models/visitor-model');
-const __ = require ('../utilities/utilities');
+const {isEqual} = require ('../utilities/is-equal');
 
 const saveData = result => request => {
   const fields = result.parameters.fields;
@@ -37,7 +37,7 @@ const saveData = result => request => {
   }
   visitor.updated = Date.now ();
 
-  if (!request.session.visitor || !__.isObjectEqual (request.session.visitor) (visitor)) {
+  if (!request.session.visitor || !isEqual (request.session.visitor) (visitor)) {
     return Model.findOneAndUpdate (
       { sessionID: request.session.AISessionID },
       visitor,
